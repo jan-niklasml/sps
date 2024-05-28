@@ -1,0 +1,7 @@
+insert into `team` (`id`, `name`, `identifier_string`) values ('46c4152a-6685-40af-acbf-9cd8c0851574', 'KM83 - Competence Center Software - Engineering (CCSE) Servicebereich Expertenteam 2 - Anwendungsentwicklung', 'ITM-KM83');
+
+insert into `person` (`id`, `firstname`, `lastname`, `email`, `team_id`) values ('2e440856-4151-4454-8683-f7df132eba95', 'Rene', 'Zarwel', 'rene.zarwel@muenchen.de', '46c4152a-6685-40af-acbf-9cd8c0851574');
+insert into `person` (`id`, `firstname`, `lastname`, `email`, `team_id`) values ('c4fa695d-9fa4-4003-926c-6091012a1eb0', 'Fabian', 'Wilms', 'fabian.wilms@muenchen.de', '46c4152a-6685-40af-acbf-9cd8c0851574');
+insert into `person` (`id`, `firstname`, `lastname`, `email`, `team_id`) values ('335ee250-eb1c-45f3-8a67-0bb04bee9172', 'Marita', 'Segl', 'marita.segl@muenchen.de', '46c4152a-6685-40af-acbf-9cd8c0851574');
+insert into `person` (`id`, `firstname`, `lastname`, `email`, `team_id`) values ('30b87c45-7a1b-4271-b631-7d7abf6d5ced', 'Dimitri', 'Krivoj', 'dimitri.krivoj@muenchen.de', '46c4152a-6685-40af-acbf-9cd8c0851574');
+insert into `person` (`id`, `firstname`, `lastname`, `email`, `team_id`) values ('9ae03ab3-8113-4f3d-8418-b18d1de04357', 'Tobias', 'Holler', 'tobias.holler@muenchen.de', '46c4152a-6685-40af-acbf-9cd8c0851574');

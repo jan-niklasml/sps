@@ -1,0 +1,63 @@
+app:
+   backend-service: beispielprojekt-backend-dev
+   frontend-service: beispielprojekt-frontend-dev
+
+spring:
+
+  # Define the keycloak development realm here
+  realm: KM83
+
+  # spring cloud gateway config
+  cloud:
+    gateway:
+      actuator:
+        verbose:
+          enabled: false
+      globalcors:
+        corsConfigurations:
+          # The cors configuration to allow frontend developers cross origin request via this api gateway
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:8081"
+              - "http://127.0.0.1:8081"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+      routes:
+        - id: sso
+          uri: https://ssodev.muenchen.de/
+          predicates:
+            - Path=/api/sso/userinfo
+          filters:
+            - RewritePath=/api/sso/userinfo, /auth/realms/${spring.realm}/protocol/openid-connect/userinfo
+        - id: backend
+          uri: http://${app.backend-service}:8080/
+          predicates:
+            - Path=/api/beispielprojekt-backend-service/**
+          filters:
+            - RewritePath=/api/beispielprojekt-backend-service/(?<urlsegments>.*), /$\{urlsegments}
+            - RemoveResponseHeader=WWW-Authenticate
+      default-filters:
+        - RemoveResponseHeader=Expires
+        - RemoveRequestHeader=cookie
+        - RemoveRequestHeader=x-xsrf-token
+        - TokenRelay=
+
+  # security config
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: https://ssodev.muenchen.de/auth/realms/${spring.realm}
+        registration:
+          keycloak:
+            client-id: beispielprojekt
+            client-secret: d5f89cfc-43a3-43e5-abdb-4a2cc48ee417
+
+  mvc:
+    log-request-details: on
+
+hazelcast:
+  openshift-service-name: ${app.frontend-service}
