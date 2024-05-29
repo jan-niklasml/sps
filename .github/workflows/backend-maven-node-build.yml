@@ -4,13 +4,10 @@ name: Compliance check and build test
 env:
      JAVA_VERSION: 17
      NODE_VERSION: 20
-     APP_PATH: "./sps-backend" # example ./backend for monorepos
+     APP_PATH: "/sps-backend" # example "/backend" for monorepos or "" for multi repos
      TZ: Europe/Berlin # timezone
        # Use docker.io for Docker Hub if empty
      REGISTRY: ghcr.io
-     # github.repository as <account>/<repo>
-     IMAGE_NAME: ${{ github.repository }}/sps-backend
-
   
 on: # defining on which triggers this action should run
   push:
@@ -53,7 +50,7 @@ jobs:
         with:
           node-version:  ${{ env.NODE_VERSION }}
       - name: Build with Maven
-        run: mvn --update-snapshots -f ${{env.APP_PATH}}/pom.xml install
+        run: mvn --update-snapshots -f .${{env.APP_PATH}}/pom.xml install
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
         with:
@@ -82,12 +79,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-
+          images: ${{ env.REGISTRY }}/${{ github.repository }}${{ APP_PATH }}
       - name: Build and push image
         uses: docker/build-push-action@v4
         with:
-          context:  ${{ env.APP_PATH }}
+          context:  .${{ env.APP_PATH }}
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}${{ APP_PATH }}
