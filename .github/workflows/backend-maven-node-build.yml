@@ -45,6 +45,7 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: "temurin"
           cache: "maven"
+          cache-dependency-path: ".${{env.APP_PATH}}/pom.xml" 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
