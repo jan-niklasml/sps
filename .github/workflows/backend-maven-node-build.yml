@@ -80,10 +80,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}${{ APP_PATH }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }}${{ env.APP_PATH }}
       - name: Build and push image
         uses: docker/build-push-action@v4
         with:
           context:  .${{ env.APP_PATH }}
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}${{ APP_PATH }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}${{ env.APP_PATH }}
