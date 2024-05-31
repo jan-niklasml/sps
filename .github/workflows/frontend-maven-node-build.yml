@@ -4,7 +4,7 @@ name: Compliance check and build test
 env:
      JAVA_VERSION: 17
      NODE_VERSION: 20
-     APP_PATH: "/sps-fronted" # example "/backend" for monorepos or "" for multi repos
+     APP_PATH: "/sps-frontend" # example "/backend" for monorepos or "" for multi repos
      TZ: Europe/Berlin # timezone
        # Use docker.io for Docker Hub if empty
      REGISTRY: ghcr.io
