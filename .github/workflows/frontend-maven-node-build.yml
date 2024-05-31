@@ -3,6 +3,7 @@ name: Compliance check and build test
 
 env:
      JAVA_VERSION: 17
+     ENABLE_NODE: true
      NODE_VERSION: 20
      APP_PATH: "/sps-frontend" # example "/backend" for monorepos or "" for multi repos
      TZ: Europe/Berlin # timezone
@@ -48,6 +49,7 @@ jobs:
           cache: "maven"
           cache-dependency-path: ".${{env.APP_PATH}}/pom.xml" 
       - name: Set up Node.js
+        if: ${{ env.ENABLE_NODE == 'true' }}
         uses: actions/setup-node@v4
         with:
           node-version:  ${{ env.NODE_VERSION }}
