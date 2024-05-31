@@ -52,7 +52,7 @@ jobs:
         with:
           node-version:  ${{ env.NODE_VERSION }}
           cache: "npm"
-          cache-dependency-path: ".${{env.APP_PATH}}/frontend/package-lock.json" 
+          cache-dependency-path: ".${{env.APP_PATH}}/**/package-lock.json" 
       - name: Build with Maven
         run: mvn --update-snapshots -f .${{env.APP_PATH}}/pom.xml install
       - name: 'Upload Artifact'
