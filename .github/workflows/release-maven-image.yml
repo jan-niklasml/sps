@@ -1,4 +1,4 @@
-name: maven-release
+name: release-maven-image
 env:
      JAVA_VERSION: 17
      NODE_VERSION: 20
