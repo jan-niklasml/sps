@@ -37,7 +37,7 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: "temurin"
           cache: "maven"
-          cache-dependency-path: ".${{env.APP_PATH}}/pom.xml" 
+          cache-dependency-path: ".${{ github.event.inputs.APP_PATH}}/pom.xml" 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -47,11 +47,11 @@ jobs:
         run: |
            git config --global user.email "github-actions@github.com"
            git config --global user.name "GitHub Actions"
-           MVN_ARTIFACT_ID=$(mvn -f .${{env.service-name}}/pom.xml org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+           MVN_ARTIFACT_ID=$(mvn -f .${{github.event.inputs.APP_PATH}}/pom.xml org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.artifactId -q -DforceStdout)
            echo $MVN_ARTIFACT_ID
            echo "MVN_ARTIFACT_ID=$MVN_ARTIFACT_ID" >> $GITHUB_OUTPUT
-           mvn release:prepare -f .{{env.APP_PATH}}/pom.xml -B  -Dpassword=${GITLAB_ACCESS_TOKEN_PW}  -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
-           mvn release:perform -f .{{env.APP_PATH}}/pom.xml -Darguments="-Dmaven.deploy.skip=true"
+           mvn release:prepare -f .{{github.event.inputs.APP_PATH}}/pom.xml -B  -Dpassword=${GITLAB_ACCESS_TOKEN_PW}  -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
+           mvn release:perform -f .{{github.event.inputs.APP_PATH}}/pom.xml -Darguments="-Dmaven.deploy.skip=true"
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
         with:
@@ -87,7 +87,7 @@ jobs:
         with:
           context:  .${{ env.APP_PATH }}
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}${{ env.APP_PATH }}:${{ github.event.inputs.releaseVersion }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}${{ github.event.inputs.APP_PATH }}:${{ github.event.inputs.releaseVersion }}
            
   create-github-release:
      needs: release
