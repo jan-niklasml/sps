@@ -85,7 +85,7 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v4
         with:
-          context:  .${{ env.APP_PATH }}
+          context:  .${{ github.event.inputs.APP_PATH }}
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.repository }}${{ github.event.inputs.APP_PATH }}:${{ github.event.inputs.releaseVersion }}
            
