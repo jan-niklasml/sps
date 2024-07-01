@@ -38,5 +38,5 @@ jobs:
     - id: abc
       uses:  it-at-m/.github/.github/actions/action-build-image/action.yml@reuseable-workflow
       with: 
-        app-path: "/sps-backend"
+        app-path: "${{ env.APP_PATH }}"
         registry-password: ${{ secrets.GITHUB_TOKEN }}
