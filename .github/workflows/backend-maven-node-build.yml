@@ -35,6 +35,8 @@ jobs:
   build-image:
     runs-on: ubuntu-latest
     steps: 
+    - name: Checkout code
+      uses: actions/checkout@v4
     - id: abc
       uses:  it-at-m/.github/.github/actions/action-build-image/action.yml@reuseable-workflow
       with: 
