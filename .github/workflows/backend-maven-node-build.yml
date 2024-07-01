@@ -21,13 +21,13 @@ jobs:
 
         uses: it-at-m/.github/.github/workflows/reuseable-template-maven-node-build.yml@reuseable-workflow
         with:
-           app-path: "${{ env.APP_PATH }}"
+           app-path: "/sps-backend"
   
   build-image:
         needs: build-maven
         uses: it-at-m/.github/.github/workflows/reuseable-template-build-image.yml@reuseable-workflow
         with: 
 
-          app-path: "${{ env.APP_PATH }}" # ${{ env.APP_PATH }}
+          app-path: "/sps-backend" # ${{ env.APP_PATH }}
         secrets:
            registry-password: ${{ secrets.GITHUB_TOKEN }}
