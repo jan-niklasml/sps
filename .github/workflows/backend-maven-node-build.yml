@@ -19,7 +19,7 @@ jobs:
 
   build-maven:
 
-        uses: it-at-m/.github/.github/workflows/reuseable-template-maven-node.yml@reuseable-workflow
+        uses: it-at-m/.github/.github/workflows/reuseable-template-maven-node-build.yml@reuseable-workflow
         with:
            app-path: "${{ env.APP_PATH }}"
   
