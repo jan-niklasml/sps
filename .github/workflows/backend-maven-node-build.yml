@@ -2,13 +2,9 @@ name: Compliance check and build test
 
 
 env:
-     JAVA_VERSION: 17
-     NODE_VERSION: 20
+
      APP_PATH: "/sps-backend" # example "/backend" for monorepos or "" for multi repos
-     TZ: Europe/Berlin # timezone
-       # Use docker.io for Docker Hub if empty
-     REGISTRY: ghcr.io
-  
+
 on: # defining on which triggers this action should run
   push:
     branches:
@@ -20,74 +16,18 @@ on: # defining on which triggers this action should run
     types: [ opened, reopened ]
      
 jobs:
-  compliance:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Advance Security Policy as Code
-        uses: advanced-security/policy-as-code@v2.7.1
-        with:
-          policy: it-at-m/policy-as-code
-          policy-path: default.yaml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          argvs: "--disable-dependabot --disable-secret-scanning --disable-code-scanning --display"
 
   build-maven:
-    needs: compliance
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: "temurin"
-          cache: "maven"
-          cache-dependency-path: ".${{env.APP_PATH}}/pom.xml" 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version:  ${{ env.NODE_VERSION }}
-      - name: Build with Maven
-        run: mvn --update-snapshots -f .${{env.APP_PATH}}/pom.xml install
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v4
-        with:
-         name: target
-         path: "**/target"
-         retention-days: 5    
-  build-image:
-     needs: build-maven
-     if: github.ref == 'refs/heads/main'
-     runs-on: ubuntu-latest
-     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Download a single artifact
-        uses: actions/download-artifact@v4
-        with:
-           name: target
-      - name: Login to Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
+        uses: it-at-m/.github/.github/workflows/reuseable-template-maven-node.yml@reuseable-workflow
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}${{ env.APP_PATH }}
-          tags: |
-            type=raw,value=latest
-      - name: Build and push image
-        uses: docker/build-push-action@v4
-        with:
-          context:  .${{ env.APP_PATH }}
-          push: true          
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+           app-path: "${{ env.APP_PATH }}"
+  
+  build-image:
+        needs: build-maven
+        uses: it-at-m/.github/.github/workflows/reuseable-template-build-image.yml@reuseable-workflow
+        with: 
+
+          app-path: "${{ env.APP_PATH }}" # ${{ env.APP_PATH }}
+        secrets:
+           registry-password: ${{ secrets.GITHUB_TOKEN }}
