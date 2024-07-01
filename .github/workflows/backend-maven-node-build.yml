@@ -23,7 +23,7 @@ jobs:
      
       -  uses: it-at-m/.github/.github/actions/action-maven-node-build@reuseable-workflow
          with:
-           app-path: "${{ env.APP_PATH }}"
+           app-path: ".${{ env.APP_PATH }}"
   
  #build-image:
  #       needs: build-maven
