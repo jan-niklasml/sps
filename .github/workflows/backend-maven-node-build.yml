@@ -28,7 +28,7 @@ jobs:
  #       uses: it-at-m/.github/.github/workflows/reuseable-template-build-image.yml@reuseable-workflow
  #       with: 
 
-#          app-path: "/sps-backend" # ${{ env.APP_PATH }}
+#          app-path: "/sps-backend"
 #        secrets:
 #           registry-password: ${{ secrets.GITHUB_TOKEN }}
 
