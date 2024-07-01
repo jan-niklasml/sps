@@ -37,7 +37,7 @@ jobs:
     needs: build-maven
     steps: 
     - id: abc
-      uses:  it-at-m/.github/action-build-image@reuseable-workflow
+      uses:  it-at-m/.github/.github/action-build-image@reuseable-workflow
       with: 
         app-path: "${{ env.APP_PATH }}"
         registry-password: ${{ secrets.GITHUB_TOKEN }}
