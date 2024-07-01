@@ -41,3 +41,5 @@ jobs:
       with: 
         app-path: "${{ env.APP_PATH }}"
         registry-password: ${{ secrets.GITHUB_TOKEN }}
+        registry:  ghcr.io # ${{ env.REGISTRY }}
+        registry-username: ${{ github.actor }}
