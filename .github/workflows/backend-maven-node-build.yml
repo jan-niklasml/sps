@@ -18,10 +18,12 @@ on: # defining on which triggers this action should run
 jobs:
 
   build-maven:
-
-        uses: it-at-m/.github/.github/workflows/reuseable-template-maven-node-build.yml@reuseable-workflow
-        with:
-           app-path: "./sps-backend"
+     runs-on: ubuntu-latest
+     steps: 
+     
+      -  uses: it-at-m/.github/.github/actions/action-maven-node-build@reuseable-workflow
+         with:
+           app-path: "${{ env.APP_PATH }}"
   
  #build-image:
  #       needs: build-maven
@@ -36,8 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-maven
     steps: 
-    - id: abc
-      uses:  it-at-m/.github/.github/actions/action-build-image@reuseable-workflow
+    - uses:  it-at-m/.github/.github/actions/action-build-image@reuseable-workflow
       with: 
         app-path: "${{ env.APP_PATH }}"
         registry-password: ${{ secrets.GITHUB_TOKEN }}
