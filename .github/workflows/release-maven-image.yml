@@ -29,8 +29,8 @@ jobs:
         uses: it-at-m/.github/.github/actions/action-maven-release@reuseable-workflow
         with:
           app-path: "${{ github.event.inputs.app-path }}"
-          releaseVersion: releaseVersion
-          developmentVersion: developmentVersion
+          releaseVersion: "${{ github.event.inputs.releaseVersion }}"
+          developmentVersion: "${{ github.event.inputs.developmentVersion }}"
 
   build-image:
     runs-on: ubuntu-latest
