@@ -28,7 +28,7 @@ jobs:
       - id: maven-release-step
         uses: it-at-m/.github/.github/actions/action-maven-release@reuseable-workflow
         with:
-          app-path: "${{ env.app-path }}"
+          app-path: "${{ github.event.inputs.app-path }}"
           releaseVersion: releaseVersion
           developmentVersion: developmentVersion
 
@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: it-at-m/.github/.github/actions/action-build-image@reuseable-workflow
         with:
-          app-path: "${{ inputs.app-path }}"
+          app-path: "${{ github.event.inputs.app-path }}"
           registry-password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           registry-username: ${{ github.actor }}
