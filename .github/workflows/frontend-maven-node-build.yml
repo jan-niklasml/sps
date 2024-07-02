@@ -1,7 +1,7 @@
 name: Compliance check and build test
 
 env:
-  app-path: "/sps-backend" # example "/backend" for monorepos or "" for multi repos
+  app-path: "/sps-frontend" # example "/backend" for monorepos or "" for multi repos
   enable-node: true
 
 on: # defining on which triggers this action should run
@@ -9,7 +9,7 @@ on: # defining on which triggers this action should run
     branches:
       # define on push of which branches should this action be run
     paths:
-      - "sps-backend/**" # define the concrete paths on which a change triggers this action, e.g. backend/**
+      - "sps-frontend/**" # define the concrete paths on which a change triggers this action, e.g. backend/**
       - ".github/workflows/**" # define the concrete paths on which a change triggers this action, e.g. backend/**
   pull_request: # trigger this action also on Pull Requests
     types: [opened, reopened]
