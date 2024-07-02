@@ -20,6 +20,7 @@ jobs:
       - uses: it-at-m/.github/.github/actions/action-maven-node-build@reuseable-workflow
         with:
           app-path: "${{ env.app-path }}"
+          enable-node: false
 
   build-image:
     runs-on: ubuntu-latest
