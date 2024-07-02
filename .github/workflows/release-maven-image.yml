@@ -47,7 +47,7 @@ jobs:
             type=semver,pattern={{version}},value=${{ github.event.inputs.releaseVersion }}
 
   create-github-release:
-    needs: release
+    needs: release-maven
     runs-on: ubuntu-latest
     steps:
       - name: Create GitHub Release
