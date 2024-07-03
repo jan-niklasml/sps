@@ -16,6 +16,8 @@ on: # defining on which triggers this action should run
 jobs:
   build-maven:
     runs-on: ubuntu-latest
+    env:
+      TZ: Europe/Berlin # timezone
     steps:
       - uses: it-at-m/.github/.github/actions/action-maven-node-build@reuseable-workflow
         with:
