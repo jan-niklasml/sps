@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: it-at-m/.github/.github/actions/action-maven-node-build@main
         with:
-          app-path: "${{ matrix.app-path }}"
+          app-path: "/${{ matrix.app-path }}"
           enable-node: ${{ matrix.app-path }}
 
   build-image:
