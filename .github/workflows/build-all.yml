@@ -6,8 +6,6 @@ env:
 
 on: # defining on which triggers this action should run
   push:
-    
-
   pull_request: # trigger this action also on Pull Requests
     types: [opened, reopened]
 
