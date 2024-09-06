@@ -27,7 +27,7 @@ jobs:
           - app-path: sps-frontend
             enable-node: true
     steps:
-      - uses: it-at-m/.github/.github/actions/action-maven-node-build@reuseable-workflow
+      - uses: it-at-m/.github/.github/actions/action-maven-node-build@main
         with:
           app-path: "${{ matrix.app-path }}"
           enable-node: ${{ matrix.app-path }}
@@ -44,7 +44,7 @@ jobs:
           - app-path: sps-frontend
             enable-node: true
     steps:
-      - uses: it-at-m/.github/.github/actions/action-build-image@reuseable-workflow
+      - uses: it-at-m/.github/.github/actions/action-build-image@main
         with:
           app-path: "${{ matrix.app-path }}"
           registry-password: ${{ secrets.GITHUB_TOKEN }}
