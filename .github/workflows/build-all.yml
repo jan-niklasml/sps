@@ -1,4 +1,4 @@
-name: Compliance check and build test
+name: build all
 
 env:
   app-path: "/sps-backend" # example "/backend" for monorepos or "" for multi repos
