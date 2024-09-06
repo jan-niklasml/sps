@@ -1,0 +1,52 @@
+name: Compliance check and build test
+
+env:
+  app-path: "/sps-backend" # example "/backend" for monorepos or "" for multi repos
+				   
+
+on: # defining on which triggers this action should run
+  push:
+    branches:
+      # define on push of which branches should this action be run
+    paths:
+      - "sps-backend/**" # define the concrete paths on which a change triggers this action, e.g. backend/**
+      - ".github/workflows/**" # define the concrete paths on which a change triggers this action, e.g. backend/**
+  pull_request: # trigger this action also on Pull Requests
+    types: [opened, reopened]
+
+jobs:
+  build-maven:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Europe/Berlin # timezone
+    strategy:
+      matrix:
+        include: 
+          - app-path: sps-backend
+            enable-node: false
+          - app-path: sps-frontend
+            enable-node: true
+    steps:
+      - uses: it-at-m/.github/.github/actions/action-maven-node-build@reuseable-workflow
+        with:
+          app-path: "${{ matrix.app-path }}"
+          enable-node: ${{ matrix.app-path }}
+
+  build-image:
+    runs-on: ubuntu-latest
+    needs: build-maven
+    if: github.ref == 'refs/heads/main'
+    strategy:
+      matrix:
+        include: 
+          - app-path: sps-backend
+            enable-node: false
+          - app-path: sps-frontend
+            enable-node: true
+    steps:
+      - uses: it-at-m/.github/.github/actions/action-build-image@reuseable-workflow
+        with:
+          app-path: "${{ matrix.app-path }}"
+          registry-password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          registry-username: ${{ github.actor }}
