@@ -2,8 +2,6 @@ name: build all
 
 env:
   app-path: "/sps-backend" # example "/backend" for monorepos or "" for multi repos
-				   
-
 on:   [push]
 jobs:
   build-maven:
