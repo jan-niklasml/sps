@@ -4,11 +4,7 @@ env:
   app-path: "/sps-backend" # example "/backend" for monorepos or "" for multi repos
 				   
 
-on: # defining on which triggers this action should run
-  push:
-  pull_request: # trigger this action also on Pull Requests
-    types: [opened, reopened]
-
+on:   [push]
 jobs:
   build-maven:
     runs-on: ubuntu-latest
