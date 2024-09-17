@@ -1,4 +1,23 @@
-# sps-frontend
+# RefArch-Kickstarter-GUI
 
+```
+npm install
+```
 
-Test-project to test github-actions. https://github.com/it-at-m/.github/tree/main/workflow-templates
+```
+npm run serve
+```
+
+```
+npm run build
+```
+
+```
+npm run test
+```
+
+```
+npm run lint
+```
+
+See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -1,8 +1,11 @@
-# Dockerfiles may only contain a FROM and the application data.
-# For Java applications use /ubi9/openjdk-11-runtime or /ubi9/openjdk-17-runtime as Base Image, for documentation 
-# please see https://access.redhat.com/documentation/en-us/red_hat_jboss_middleware_for_openshift/3/html/red_hat_java_s2i_for_openshift/
-# All other variations must be approved by KM8
+# For documentation see https://github.com/sclorg/nginx-container
+FROM registry.access.redhat.com/ubi9/nginx-124:1-25@sha256:166f66aeac8aed74ad0d4238e899654c725b8376fc573cb78756c1df103a7704
 
-FROM registry.access.redhat.com/ubi9/openjdk-17-runtime:latest
+# Copy built web application
+COPY dist .
 
-COPY apigateway/target/*.jar /deployments/application.jar
+# Copy custom nginx configurations
+COPY docker/nginx/*.conf "${NGINX_DEFAULT_CONF_PATH}"
+
+# Start the web server
+CMD nginx -g "daemon off;"

@@ -1,41 +1,34 @@
 name: build all
 
-env:
-  app-path: "/sps-backend" # example "/backend" for monorepos or "" for multi repos
-on:   [push]
+on: [push]
 jobs:
-  build-maven:
+  build:
     runs-on: ubuntu-latest
     env:
       TZ: Europe/Berlin # timezone
     strategy:
       matrix:
-        include: 
+        include: # hier müssen die Pfade angegeben werden
           - app-path: sps-backend
-            enable-node: false
           - app-path: sps-frontend
-            enable-node: true
     steps:
-      - uses: it-at-m/.github/.github/actions/action-maven-node-build@main
+      - uses: actions/checkout@v4
+      - if:  ${{hashFiles(format('./{0}/package.json', matrix.app-path))!=null}} 
+        id: node
+        uses: it-at-m/.github/.github/actions/action-npm-build@main
         with:
-          app-path: "/${{ matrix.app-path }}"
-          enable-node: ${{ matrix.app-path }}
-
-  build-image:
-    runs-on: ubuntu-latest
-    needs: build-maven
-    if: github.ref == 'refs/heads/main'
-    strategy:
-      matrix:
-        include: 
-          - app-path: sps-backend
-            enable-node: false
-          - app-path: sps-frontend
-            enable-node: true
-    steps:
-      - uses: it-at-m/.github/.github/actions/action-build-image@main
+          app-path:  "${{ matrix.app-path }}"
+      - if:  ${{hashFiles(format('./{0}/pom.xml', matrix.app-path))!=null}} 
+        id: maven
+        uses: it-at-m/.github/.github/actions/action-maven-build@main
         with:
           app-path: "${{ matrix.app-path }}"
+      - if: github.ref == 'refs/heads/test-pip'
+        uses: it-at-m/.github/.github/actions/action-build-image@main
+        with:
+          path: "${{  matrix.app-path }}"
+          image-name: "${{  matrix.app-path }}"
+          artifact-name: ${{join(steps.*.outputs.artifact-name)}}
           registry-password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           registry-username: ${{ github.actor }}
