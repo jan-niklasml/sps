@@ -16,8 +16,9 @@ on:
         description: Service-Name
         required: true
         options:
-          - sps-backend # todo: muss angepasst werden. eigenen Ordner verwenden
-          - sps-frontend # todo: muss angepasst werden. eigenen Ordner verwenden
+          - refarch-backend
+          - refarch-eai
+
 jobs:
   release-maven:
     runs-on: ubuntu-latest
@@ -28,12 +29,11 @@ jobs:
       TZ: Europe/Berlin # timezone
     steps:
       - id: maven-release-step
-        uses: it-at-m/.github/.github/actions/action-maven-release@main
+        uses: it-at-m/.github/.github/actions/action-maven-release@update-release-step
         with:
           app-path: "/${{ github.event.inputs.app-path }}"
           releaseVersion: "${{ github.event.inputs.releaseVersion }}"
           developmentVersion: "${{ github.event.inputs.developmentVersion }}"
-          java-version: 17
 
   build-image:
     runs-on: ubuntu-latest
@@ -45,7 +45,6 @@ jobs:
           image-name: "${{ github.event.inputs.app-path }}"
           registry-password: ${{ secrets.GITHUB_TOKEN }}
           artifact-name: ${{ needs.release-maven.outputs.ARTIFACT_NAME }}
-          registry: ghcr.io
           registry-username: ${{ github.actor }}
           image-tags: |
             type=semver,pattern={{version}},value=${{ github.event.inputs.releaseVersion }}
