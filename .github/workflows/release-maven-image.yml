@@ -41,6 +41,10 @@ jobs:
     steps:
       - uses: it-at-m/.github/.github/actions/action-build-image@main
         with:
+          SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
+          CENTRAL_USERNAME: ${{ secrets.sonatype_username }}
+          CENTRAL_PASSWORD: ${{ secrets.sonatype_password  }}
+          GDP_PRIVATE_KEY: ${{  secrets.gpg_private_key }}
           path: "${{ github.event.inputs.app-path }}"
           image-name: "${{ github.event.inputs.app-path }}"
           registry-password: ${{ secrets.GITHUB_TOKEN }}
