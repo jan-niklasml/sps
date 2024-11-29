@@ -47,6 +47,7 @@ jobs:
           GDP_PRIVATE_KEY: ${{  secrets.gpg_private_key }}
           path: "${{ github.event.inputs.app-path }}"
           image-name: "${{ github.event.inputs.app-path }}"
+          java-version: 17
           registry-password: ${{ secrets.GITHUB_TOKEN }}
           artifact-name: ${{ needs.release-maven.outputs.ARTIFACT_NAME }}
           registry-username: ${{ github.actor }}
