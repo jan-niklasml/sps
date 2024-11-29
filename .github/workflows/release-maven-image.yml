@@ -31,6 +31,11 @@ jobs:
       - id: maven-release-step
         uses: it-at-m/.github/.github/actions/action-maven-release@update-release-step
         with:
+          java-version: 17
+          SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
+          CENTRAL_USERNAME: ${{ secrets.sonatype_username }}
+          CENTRAL_PASSWORD: ${{ secrets.sonatype_password  }}
+          GDP_PRIVATE_KEY: ${{  secrets.gpg_private_key }}
           app-path: "/${{ github.event.inputs.app-path }}"
           releaseVersion: "${{ github.event.inputs.releaseVersion }}"
           developmentVersion: "${{ github.event.inputs.developmentVersion }}"
@@ -41,13 +46,8 @@ jobs:
     steps:
       - uses: it-at-m/.github/.github/actions/action-build-image@main
         with:
-          SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
-          CENTRAL_USERNAME: ${{ secrets.sonatype_username }}
-          CENTRAL_PASSWORD: ${{ secrets.sonatype_password  }}
-          GDP_PRIVATE_KEY: ${{  secrets.gpg_private_key }}
           path: "${{ github.event.inputs.app-path }}"
           image-name: "${{ github.event.inputs.app-path }}"
-          java-version: 17
           registry-password: ${{ secrets.GITHUB_TOKEN }}
           artifact-name: ${{ needs.release-maven.outputs.ARTIFACT_NAME }}
           registry-username: ${{ github.actor }}
