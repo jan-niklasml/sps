@@ -58,6 +58,10 @@ jobs:
     needs: release-maven
     runs-on: ubuntu-latest
     steps:
+      - name: Download a single artifact
+        uses: actions/download-artifact@v4
+        with:
+         name: ${{ needs.release-maven.outputs.ARTIFACT_NAME }}
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v2
@@ -67,5 +71,5 @@ jobs:
           prerelease: false
           generate_release_notes: false
           files: |
-            sps-backend/target/*.jar
+            ${{ github.event.inputs.app-path }}/target/*.jar
               
