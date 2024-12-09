@@ -1,0 +1,54 @@
+name: release-node-image
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        type: choice
+        description: "Add node release."
+        required: true
+        options:
+          - major
+          - minor 
+          - patch
+
+      app-path:
+        type: choice
+        description: Service-Name
+        required: true
+        options:
+          - sps-frontend # todo: muss angepasst werden. eigenen Ordner verwenden
+
+permissions:
+
+  contents: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        working-directory: ./${{inputs.app-path}}
+        run: npm ci
+
+      - name: Build the project
+        working-directory: ./${{inputs.app-path}}
+        run: |
+          git push
+          git push --tags
+
