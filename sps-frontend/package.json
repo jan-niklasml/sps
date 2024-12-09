@@ -1,6 +1,6 @@
 {
     "name": "beispielprojekt-frontend-frontend",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "private": true,
     "scripts": {
         "serve": "vite",
@@ -9,7 +9,7 @@
         "test:unit": "vitest run",
         "lint": "eslint src --fix",
         "type-check": "vue-tsc --noEmit --skipLibCheck",
-        "version": "npm run build && git add *",
+        "version": "git add *",
         "postversion": "git push && git push --tags && rm -rf build/temp"
     },
     "dependencies": {
