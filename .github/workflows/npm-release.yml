@@ -48,11 +48,13 @@ jobs:
         
       - name: Install dependencies1
         working-directory: ./${{inputs.app-path}}
-        run: npm version ${{inputs.releaseVersion}}
-        
-      - name: Build the project
-        working-directory: ./${{inputs.app-path}}
-        run: |
-          git push
-          git push --tags
+        run: | 
+         NEW_VERSION=$(npm version ${{inputs.releaseVersion}})
+         git config --global user.email "github-actions@github.com"
+         git config --global user.name "GitHub Actions"
+         git add package.json package-lock.json
+         git commit -m 'Bump version'
+         git tag $NEW_VERSION
+         git push && git push --tags
+
 
