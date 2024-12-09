@@ -1,6 +1,6 @@
 {
     "name": "beispielprojekt-frontend-frontend",
-    "version": "0.1.0",
+    "version": "0.1.6",
     "private": true,
     "scripts": {
         "serve": "vite",
@@ -8,7 +8,9 @@
         "test:watch": "vitest watch",
         "test:unit": "vitest run",
         "lint": "eslint src --fix",
-        "type-check": "vue-tsc --noEmit --skipLibCheck"
+        "type-check": "vue-tsc --noEmit --skipLibCheck",
+        "version": "npm run build && git add *",
+        "postversion": "git push && git push --tags && rm -rf build/temp"
     },
     "dependencies": {
         "@muenchen/appswitcher-vue": "^1.0.0",
