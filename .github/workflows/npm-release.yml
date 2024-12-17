@@ -33,6 +33,7 @@ jobs:
       id-token: write # to enable use of OIDC for npm provenance
     outputs:
       ARTIFACT_NAME: ${{ steps.node.outputs.artifact-name }}
+      VERSION: ${{steps.node-release.outputs.NEW_VERSION}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -46,18 +47,19 @@ jobs:
         working-directory: ./${{inputs.app-path}}
         run: npm ci
         
-      - name: Bump version and create git tag
+      - id: node-release
+        name: Bump version and create git tag
         working-directory: ./${{inputs.app-path}}
         run: | 
          NEW_VERSION=$(npm version ${{inputs.releaseVersion}}) || exit 1
+         echo $NEW_VERSION >> "$GITHUB_OUTPUT"
          git config --global user.email "github-actions@github.com"
          git config --global user.name "GitHub Actions"
          git add package.json package-lock.json
          git commit -m "Bump version to ${NEW_VERSION}" || exit 1
          git tag "${NEW_VERSION}" || exit 1
          git push && git push --tags || exit 1
-      - if:  ${{hashFiles(format('./{0}/package.json', app-path))!=null}}
-        id: node
+      - id: node
         uses: it-at-m/.github/.github/actions/action-npm-build@main
         with:
           app-path:  "${{ app-path }}"
@@ -68,8 +70,8 @@ jobs:
     steps:
       - uses: it-at-m/.github/.github/actions/action-build-image@main
         with:
-          path: "${{  app-path }}"
-          image-name: "${{  app-path }}"
+          path: "${{  inputs.app-path }}"
+          image-name: "${{  inputs.app-path }}"
           artifact-name:  ${{ needs.release.outputs.ARTIFACT_NAME }}
           registry-password: ${{ secrets.GITHUB_TOKEN }}
           registry-username: ${{ github.actor }}
