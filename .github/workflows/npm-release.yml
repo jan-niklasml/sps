@@ -58,7 +58,7 @@ jobs:
         uses: it-at-m/.github/.github/actions/action-npm-build@main
         with:
           app-path:  "${{ inputs.app-path }}"
-      - if: "${{ skipDeployment == 'false' }}"
+      - if: "${{ env.skipDeployment == 'false' }}"
         run: npm publish   # publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # in der GitHub it-at-m Orga zentral hinterlegter Token
