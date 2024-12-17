@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       releaseVersion:
-        description: "Default version to use when preparing a release."
+        description: "Version to use when preparing a release (e.g., 1.2.3)"
         required: true
-        default: "X.Y.Z"
+        default: "0.0.1"
       developmentVersion:
-        description: "Default version to use for new local working copy."
+        description: "Version to use for new local working copy (e.g., 1.2.4-SNAPSHOT)"
         required: true
-        default: "X.Y.Z-SNAPSHOT"
+        default: "0.0.2-SNAPSHOT"
       app-path:
         type: choice
         description: Service-Name
@@ -29,16 +29,16 @@ jobs:
       TZ: Europe/Berlin # timezone
     steps:
       - id: maven-release-step
-        uses: it-at-m/.github/.github/actions/action-maven-release@update-release-step
+        uses: it-at-m/.github/.github/actions/action-maven-release@main
         with:
           java-version: 17
+          app-path: "/${{ github.event.inputs.app-path }}"
+          releaseVersion: "${{ github.event.inputs.releaseVersion }}"
+          developmentVersion: "${{ github.event.inputs.developmentVersion }}"
           SIGN_KEY_PASS: ${{ secrets.gpg_passphrase }}
           CENTRAL_USERNAME: ${{ secrets.sonatype_username }}
           CENTRAL_PASSWORD: ${{ secrets.sonatype_password  }}
           GDP_PRIVATE_KEY: ${{  secrets.gpg_private_key }}
-          app-path: "/${{ github.event.inputs.app-path }}"
-          releaseVersion: "${{ github.event.inputs.releaseVersion }}"
-          developmentVersion: "${{ github.event.inputs.developmentVersion }}"
 
   build-image:
     runs-on: ubuntu-latest
@@ -59,12 +59,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download a single artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
-         name: ${{ needs.release-maven.outputs.ARTIFACT_NAME }}
+          name: ${{ needs.release-maven.outputs.ARTIFACT_NAME }}
       - name: Create GitHub Release
         id: create_release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@7b4da11513bf3f43f9999e90eabced41ab8bb048 # v2.2.0
         with:
           tag_name: ${{needs.release-maven.outputs.MVN_ARTIFACT_ID}}-${{ github.event.inputs.releaseVersion }}
           draft: false
@@ -72,4 +72,3 @@ jobs:
           generate_release_notes: false
           files: |
             ${{ github.event.inputs.app-path }}/target/*.jar
-              
