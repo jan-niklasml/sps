@@ -62,7 +62,7 @@ jobs:
       - id: node
         uses: it-at-m/.github/.github/actions/action-npm-build@main
         with:
-          app-path:  "${{ app-path }}"
+          app-path:  "${{ inputs.app-path }}"
 
   build-image:  
     runs-on: ubuntu-latest
@@ -76,4 +76,4 @@ jobs:
           registry-password: ${{ secrets.GITHUB_TOKEN }}
           registry-username: ${{ github.actor }}
           image-tags: |
-            type=semver,pattern={{version}},value=${{ github.event.inputs.releaseVersion }}
+            type=semver,pattern={{version}},value=${{ needs.release.outputs.VERSION }}
