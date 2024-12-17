@@ -39,9 +39,6 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Install dependencies
-        working-directory: ./${{inputs.app-path}}
-        run: npm ci
         
       - id: node-release
         name: Bump version and create git tag
