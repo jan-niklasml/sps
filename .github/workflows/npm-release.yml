@@ -30,6 +30,8 @@ jobs:
     outputs:
       ARTIFACT_NAME: ${{ steps.node.outputs.artifact-name }}
       VERSION: ${{steps.node-release.outputs.VERSION}}
+    env: 
+     skipDeployment: false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -56,7 +58,10 @@ jobs:
         uses: it-at-m/.github/.github/actions/action-npm-build@main
         with:
           app-path:  "${{ inputs.app-path }}"
-
+      - if: "${{ skipDeployment == 'false' }}"
+        run: npm publish   # publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # in der GitHub it-at-m Orga zentral hinterlegter Token
   build-image:  
     runs-on: ubuntu-latest
     needs: release
