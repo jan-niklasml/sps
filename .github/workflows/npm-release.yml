@@ -52,7 +52,7 @@ jobs:
         working-directory: ./${{inputs.app-path}}
         run: | 
          NEW_VERSION=$(npm version ${{inputs.releaseVersion}}) || exit 1
-         # echo $NEW_VERSION >> "$GITHUB_OUTPUT"
+         echo "VERSION=$NEW_VERSION" >> "$GITHUB_OUTPUT"
          git config --global user.email "github-actions@github.com"
          git config --global user.name "GitHub Actions"
          git add package.json package-lock.json
