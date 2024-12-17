@@ -89,5 +89,4 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: false
-          files: |
-            ${{ github.event.inputs.app-path }}/dist/*
+
