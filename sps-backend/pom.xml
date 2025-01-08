@@ -12,7 +12,7 @@
 
     <groupId>de.muenchen.beispielprojekt</groupId>
     <artifactId>beispielprojekt-backend</artifactId>
-    <version>1.0.61-SNAPSHOT</version>
+    <version>1.0.60</version>
     <name>beispielprojekt_backend</name>
 
 
@@ -275,7 +275,7 @@
     <scm>
         <connection>scm:git:${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git</connection>
         <developerConnection>scm:git:${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>beispielprojekt-backend-1.0.60</tag>
   </scm>
 
 
