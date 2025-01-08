@@ -12,7 +12,7 @@
 
     <groupId>de.muenchen.beispielprojekt</groupId>
     <artifactId>beispielprojekt-backend</artifactId>
-    <version>1.0.60</version>
+    <version>1.0.61-SNAPSHOT</version>
     <name>beispielprojekt_backend</name>
 
 
