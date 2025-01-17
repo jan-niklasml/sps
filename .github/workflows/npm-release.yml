@@ -53,6 +53,7 @@ jobs:
             name: ${{ needs.release.outputs.ARTIFACT_NAME }}
       - id: aa
         run: |
+         echo  ${{ needs.release.outputs.ARTIFACT_NAME }}
          ls -al
          cd sps-frontend
          ls -al
