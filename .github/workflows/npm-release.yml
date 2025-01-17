@@ -28,8 +28,8 @@ jobs:
       pull-requests: write # to be able to comment on released pull requests
       id-token: write # to enable use of OIDC for npm provenance
     outputs:
-      ARTIFACT_NAME: ${{ steps.node.outputs.artifact-name }}
-      VERSION: ${{steps.node-release.outputs.VERSION}}
+      ARTIFACT_NAME: ${{ steps.npm_release.outputs.artifact-name }}
+      VERSION: ${{steps.npm_release.outputs.VERSION}}
     env: 
      skipDeployment: false
     steps:
