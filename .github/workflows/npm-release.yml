@@ -53,6 +53,7 @@ jobs:
             name: ${{ needs.release.outputs.ARTIFACT_NAME }}
       - id: aa
         run: |
+         ls -al
          cd sps-frontend
          ls -al
       - uses: it-at-m/.github/.github/actions/action-build-image@main
