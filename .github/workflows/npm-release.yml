@@ -28,7 +28,7 @@ jobs:
       pull-requests: write # to be able to comment on released pull requests
       id-token: write # to enable use of OIDC for npm provenance
     outputs:
-      ARTIFACT_NAME: ${{ steps.npm_release.outputs.artifact-name }}
+      ARTIFACT_NAME: ${{ steps.npm_release.outputs.ARTIFACT_NAME }}
       VERSION: ${{steps.npm_release.outputs.VERSION}}
     env: 
      skipDeployment: false
@@ -45,18 +45,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: release
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Download a single artifact
-        uses: actions/download-artifact@v4
-        with:
-            name: ${{ needs.release.outputs.ARTIFACT_NAME }}
-      - id: aa
-        run: |
-         echo  ${{ needs.release.outputs.ARTIFACT_NAME }}
-         ls -al
-         cd sps-frontend
-         ls -al
       - uses: it-at-m/.github/.github/actions/action-build-image@main
         with:
           path: "${{  inputs.app-path }}"
