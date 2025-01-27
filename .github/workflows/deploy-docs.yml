@@ -6,7 +6,6 @@ on:
   # Runs on pushes targeting the `main` branch. Change this to `master` if you're
   # using the `master` branch as the default branch.
   push:
-    branches: [main]
     paths:
       - "docs/**"
       - ".github/workflows/**" # define the concrete paths on which a change triggers this action, e.g. backend/**
