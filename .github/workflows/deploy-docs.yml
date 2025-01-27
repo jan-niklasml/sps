@@ -36,4 +36,7 @@ jobs:
         with:
           app-path: ${{inputs.app-path}}
       - id: deploy_docs
+        if: (github.ref_name == 'main')
+
+  
         uses: it-at-m/.github/.github/actions/action-deploy-docs@feat/102-enhance-action-npm-build-to-include-parameters-for-lintingtesting
