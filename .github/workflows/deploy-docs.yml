@@ -31,9 +31,9 @@ jobs:
   deploy-docs:
     runs-on: ubuntu-latest
     steps:
-      - id: build docs
+      - id: build_docs
         uses: it-at-m/.github/.github/actions/action-build-docs@feat/102-enhance-action-npm-build-to-include-parameters-for-lintingtesting
         with:
           app-path: ${{inputs.app-path}}
-      - id: deploy docs
+      - id: deploy_docs
         uses: it-at-m/.github/.github/actions/action-deploy-docs@feat/102-enhance-action-npm-build-to-include-parameters-for-lintingtesting
