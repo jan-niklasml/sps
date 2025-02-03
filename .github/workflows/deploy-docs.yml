@@ -23,9 +23,9 @@ jobs:
   deploy-docs:
     runs-on: ubuntu-latest
     steps:
-      - id: build_docs
-        uses: it-at-m/.github/.github/actions/action-build-docs@main
-      - id: deploy_docs
+       - id: build_docs
+         uses: it-at-m/.github/.github/actions/action-build-docs@main
+       - id: deploy_docs
         # Only deploy documentation from the main branch to prevent unauthorized changes
-
-        uses: it-at-m/.github/.github/actions/action-deploy-docs@main
+ 
+         uses: it-at-m/.github/.github/actions/action-deploy-docs@main
