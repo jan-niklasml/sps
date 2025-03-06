@@ -26,7 +26,7 @@
             <v-spacer />
             <appswitcher
                 v-if="appswitcherBaseUrl"
-                :uri="appswitcherBaseUrl"
+                :base-url="appswitcherBaseUrl"
                 :tags="['global']"
             />
             <v-btn text fab>
